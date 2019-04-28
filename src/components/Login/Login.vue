@@ -58,9 +58,7 @@ export default {
         axios
           .post('http://localhost:8888/api/private/v1/login', this.loginForm)
           .then(res => {
-            console.log(res)
             // 200验证一致, 400验证错误
-            console.log(res.data.meta.status)
             if (res.data.meta.status === 400) {
               this.$message.error({
                 message: '账号名或密码错误',
@@ -72,8 +70,11 @@ export default {
                 message: '登陆成功',
                 duration: 800
               })
+              // 拿到token令牌,设置给localstroge
+              // console.log(res.data.data.token)
+              localStorage.setItem('token', res.data.data.token)
               // 跳转到首页
-              this.$router.push('/users')
+              this.$router.push('/home')
             }
           })
       })
